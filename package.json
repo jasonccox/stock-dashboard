@@ -1,0 +1,43 @@
+{
+  "name": "stock-dashboard",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "npm run build:dev & nodemon js/backend/app.js",
+    "start": "node js/src/backend/app.js",
+    "build": "npm run build:backend && npm run build:frontend",
+    "build:dev": "npm run build:backend:dev & npm run build:frontend:dev",
+    "build:backend": "tsc",
+    "build:backend:dev": "tsc --watch",
+    "build:frontend": "NODE_ENV=production webpack",
+    "build:frontend:dev": "webpack --watch",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jason Cox",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/morgan": "^1.9.9",
+    "@types/react": "^18.3.5",
+    "@types/react-dom": "^18.3.0",
+    "css-loader": "^7.1.2",
+    "eslint": "^8.57.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-airbnb-typescript": "^18.0.0",
+    "html-webpack-plugin": "^5.6.0",
+    "mini-css-extract-plugin": "^2.9.1",
+    "nodemon": "^3.1.4",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.5.4",
+    "webpack": "^5.94.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.1.0"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "http-status-codes": "^2.3.0",
+    "morgan": "^1.10.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  }
+}

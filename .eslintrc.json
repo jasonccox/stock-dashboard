@@ -1,0 +1,12 @@
+{
+  "extends": ["eslint:recommended", "airbnb", "airbnb-typescript"],
+  "ignorePatterns": ["dist/", "js/"],
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "rules": {
+    "no-console": "off",
+    "dot-notation": "off",
+    "react/require-default-props": "off"
+  }
+}

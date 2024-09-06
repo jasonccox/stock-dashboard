@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "rootDir": ".",
+    "jsx": "react",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "lib": ["dom", "esnext"],
+    "strict": true,
+    "exactOptionalPropertyTypes": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noUncheckedIndexedAccess": true,
+    "sourceMap": true,
+    "target": "esnext",
+    "outDir": "js"
+  },
+  "exclude": ["node_modules"]
+}

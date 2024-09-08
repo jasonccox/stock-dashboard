@@ -2,6 +2,7 @@ import express from 'express';
 import * as path from 'path';
 import morgan from 'morgan';
 import { StatusCodes } from 'http-status-codes';
+import stocksApi from './api/stocks';
 
 const port = process.env['PORT'] || 3000;
 
@@ -24,3 +25,5 @@ app.get('/', (_req, res) => {
     }
   });
 });
+
+app.use('/api/stocks', stocksApi);

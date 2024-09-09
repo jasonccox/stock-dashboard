@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import AsyncButton from './AsyncButton';
 import { Prices, Symbols } from '../../types';
+import LoadingIndicator from './LoadingIndicator';
 
 type Props = {
   symbols: Symbols
@@ -29,20 +30,25 @@ export default function StockList({
       </thead>
       <tbody>
         {
-          sortedSymbols.map((symbol) => (
-            <tr key={symbol}>
-              <td>{symbol}</td>
-              <td>{`${prices[symbol]?.toFixed(2) ?? '...'}`}</td>
-              <td>
-                <AsyncButton
-                  type="button"
-                  onClick={() => onRemove(symbol)}
-                >
-                  Remove
-                </AsyncButton>
-              </td>
-            </tr>
-          ))
+          sortedSymbols.map((symbol) => {
+            const price = prices[symbol];
+            return (
+              <tr key={symbol}>
+                <td>{symbol}</td>
+                <td>
+                  {price !== undefined ? price.toFixed(2) : <LoadingIndicator />}
+                </td>
+                <td>
+                  <AsyncButton
+                    type="button"
+                    onClick={() => onRemove(symbol)}
+                  >
+                    Remove
+                  </AsyncButton>
+                </td>
+              </tr>
+            );
+          })
         }
       </tbody>
     </table>

@@ -43,6 +43,10 @@ router.get('/prices', asyncify<PricesResponse>(async (req, res) => {
 // Get the list of stocks currently on the watch list.
 router.get('/watches', asyncify<WatchesResponse>(async (req, res) => {
   const symbols = await db.getWatchedSymbols();
+
+  // simulate delay
+  await new Promise((r) => { setTimeout(r, 300); });
+
   res.json({ symbols });
 }));
 

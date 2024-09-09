@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from 'react';
+import LoadingIndicator from './LoadingIndicator';
 
 type Props = {
   onClick: () => Promise<void>
@@ -34,7 +35,7 @@ export default function AsyncButton({
       // eslint-disable-next-line react/jsx-props-no-spreading
       {...props}
     >
-      { loading ? '...' : children}
+      { loading ? <LoadingIndicator /> : children}
     </button>
   );
 }

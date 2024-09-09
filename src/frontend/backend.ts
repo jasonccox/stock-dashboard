@@ -14,7 +14,19 @@ export default class Backend {
     const fullUrl = `${this.baseUrl}${url}`;
     const response = await fetch(encodeURI(fullUrl), options);
     if (!response.ok) {
-      throw Error(`backend request to ${url} failed with status ${response.status}`);
+      console.error(`backend request to ${url} failed with status ${response.status}`, response);
+
+      let message = 'Unknown error';
+      try {
+        const body = await response.json();
+        if (typeof body === 'object' && body && 'error' in body && typeof body.error === 'string') {
+          message = body.error;
+        }
+      } catch (e) {
+        // body not json -- stick with default message
+      }
+
+      throw Error(message);
     }
 
     // TODO: validate response body schema

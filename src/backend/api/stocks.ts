@@ -57,6 +57,11 @@ router.post('/watches/:symbol', asyncify(async (req, res) => {
     throw Error('missing request param symbol');
   }
 
+  if (symbol.includes(' ')) {
+    res.status(StatusCodes.BAD_REQUEST).json({ error: 'symbol must not contain spaces' });
+    return;
+  }
+
   try {
     await db.addWatchedSymbol(symbol);
     res.status(StatusCodes.CREATED).json('symbol added to watch list');

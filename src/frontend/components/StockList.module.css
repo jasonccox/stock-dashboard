@@ -1,0 +1,67 @@
+.list {
+  width: 100%;
+  table-layout: fixed;
+  /* border: 0.0625rem solid #aaaaaa; */
+  border-collapse: collapse;
+}
+
+.list tr, .list th, .list td {
+  border: none;
+}
+
+.list td, .list th {
+  padding: 0.5rem;
+}
+
+.header {
+  border-bottom: 0.0625rem solid #555555;
+  font-weight: bold;
+}
+
+.symbolCol, .priceCol {
+  padding-inline-end: 1rem;
+}
+
+.body .symbolCol, .body .priceCol {
+  font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace;
+}
+
+.symbolCol {
+  width: 40%;
+  min-width: fit-content;
+  text-align: left;
+}
+
+.body .symbolCol {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.priceCol {
+  width: 25%;
+  min-width: fit-content;
+  text-align: right;
+}
+
+.priceCol > * {
+  margin-inline-start: auto;
+}
+
+.removeCol {
+  width: 35%;
+  min-width: fit-content;
+}
+
+.removeCol button {
+  margin-inline-start: auto;
+}
+
+.row:nth-child(odd) {
+  background: #f8f8f8;
+}
+
+.emptyMessage {
+  width: 100%;
+  text-align: center;
+}

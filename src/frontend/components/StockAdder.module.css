@@ -1,0 +1,31 @@
+.form {
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.label {
+  flex-grow: 1;
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 0.25rem;
+  align-items: center;
+}
+
+.input {
+  flex-grow: 1;
+  border: 0.0625rem solid #aaaaaa;
+  border-radius: 0.25rem;
+  padding: 0.25rem;
+  align-items: center;
+  font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace;
+  font-size: 1.125rem;
+  outline: none;
+  width: 10rem;;
+}
+
+.input:focus {
+  border: 0.0625rem solid #0073ff;
+  outline: 0.125rem solid #0073ff;
+}

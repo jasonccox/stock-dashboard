@@ -1,7 +1,9 @@
 import React, { useMemo } from 'react';
+import { faMinus } from '@fortawesome/free-solid-svg-icons';
 import AsyncButton from './AsyncButton';
 import { Prices, Symbols } from '../../types';
 import LoadingIndicator from './LoadingIndicator';
+import * as styles from './StockList.module.css';
 
 type Props = {
   symbols: Symbols
@@ -20,28 +22,33 @@ export default function StockList({
 }: Props) {
   const sortedSymbols = useMemo(() => symbols.sort(), [symbols]);
 
-  return (
-    <table>
-      <thead>
+  return symbols.length > 0 ? (
+    <table className={styles.list}>
+      <thead className={styles.header}>
         <tr>
-          <th scope="col">Symbol</th>
-          <th scope="col">Price ($)</th>
+          <th className={styles.symbolCol} scope="col">Symbol</th>
+          <th className={styles.priceCol} scope="col">Price ($)</th>
+          <th className={styles.removeCol} scope="col">
+            <div className="a11y-only">remove buttons</div>
+          </th>
         </tr>
       </thead>
-      <tbody>
+      <tbody className={styles.body}>
         {
           sortedSymbols.map((symbol) => {
             const price = prices[symbol];
             return (
-              <tr key={symbol}>
-                <td>{symbol}</td>
-                <td>
+              <tr key={symbol} className={styles.row}>
+                <td className={styles.symbolCol}>{symbol}</td>
+                <td className={styles.priceCol}>
                   {price !== undefined ? price.toFixed(2) : <LoadingIndicator />}
                 </td>
-                <td>
+                <td className={styles.removeCol}>
                   <AsyncButton
                     type="button"
                     onClick={() => onRemove(symbol)}
+                    icon={faMinus}
+                    danger
                   >
                     Remove
                   </AsyncButton>
@@ -52,5 +59,9 @@ export default function StockList({
         }
       </tbody>
     </table>
+  ) : (
+    <div className={styles.emptyMessage}>
+      You aren&apos;t watching any stocks yet.
+    </div>
   );
 }

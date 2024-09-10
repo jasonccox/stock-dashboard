@@ -1,0 +1,12 @@
+.header {
+  width: 100%;
+  border-bottom: solid 0.0625rem #eeeeee;
+  font-size: 1.25rem;
+  padding: 0.5rem;
+}
+
+.contents {
+  width: 100%;
+  max-width: 30rem;
+  margin: auto;
+}

@@ -1,0 +1,64 @@
+.toasts {
+  position: fixed;
+  top: 0;
+  left: 1rem;
+  right: 1rem;
+}
+
+.toast {
+  background: #f8faff;
+  border-radius: 0.25rem;
+  width: fit-content;
+  max-width: 30rem;
+  margin: 0.5rem auto;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  box-shadow: 0.125rem 0.125rem 0.25rem #00000088;
+  font-size: 0.9rem;
+}
+
+.toast.error {
+  background: #fff1ed;
+}
+
+.icon {
+  width: 1.75rem;
+  height: 1.75rem;
+  margin: 0.25rem;
+}
+
+.toast.error .icon {
+  color: #ff4612;
+}
+
+.message {
+  padding: 0.25rem;
+}
+
+.close {
+  width: 2.5rem;
+  height: 100%;
+  min-height: 2rem;
+  max-height: 2.5rem;
+  padding: 0;
+  background: transparent;
+  border-radius: 0.25rem;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.close svg {
+  width: 1rem;
+  height: 1rem;
+  transition: width 0.125s, height 0.125s;
+}
+
+.close:hover svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}

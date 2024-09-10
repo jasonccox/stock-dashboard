@@ -1,8 +1,10 @@
 import React, {
   useCallback, useContext, useRef, useState,
 } from 'react';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import AsyncButton from './AsyncButton';
 import ToastContext from '../contexts/ToastContext';
+import * as styles from './StockAdder.module.css';
 
 type Props = {
   onAdd: (symbol: string) => Promise<void>
@@ -38,22 +40,32 @@ export default function StockAdder({ onAdd }: Props) {
   }, [onAdd, symbol]);
 
   return (
-    <form action="" onSubmit={(e) => e.preventDefault()} noValidate>
-      <label htmlFor="adder">
-        Symbol
-        <input
-          ref={input}
-          type="text"
-          id="adder"
-          value={symbol}
-          onChange={(e) => setSymbol(e.target.value.toUpperCase())}
-          pattern="[^ ]*"
-          required
-        />
-      </label>
-      <AsyncButton type="submit" onClick={handleClick}>
-        Add
-      </AsyncButton>
-    </form>
+    <div>
+      <p>Use the text box below to add stocks to your watch list.</p>
+
+      <form
+        className={styles.form}
+        action=""
+        onSubmit={(e) => e.preventDefault()}
+        noValidate
+      >
+        <label className={styles.label} htmlFor="adder">
+          Symbol
+          <input
+            className={styles.input}
+            ref={input}
+            type="text"
+            id="adder"
+            value={symbol}
+            onChange={(e) => setSymbol(e.target.value.toUpperCase())}
+            pattern="[^ ]*"
+            required
+          />
+        </label>
+        <AsyncButton type="submit" onClick={handleClick} icon={faPlus}>
+          Add
+        </AsyncButton>
+      </form>
+    </div>
   );
 }

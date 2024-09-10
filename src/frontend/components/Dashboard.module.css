@@ -1,0 +1,22 @@
+.dashboard {
+  width: 100%;
+  max-width: 32rem;
+  margin-inline: auto;
+  margin-bottom: 1rem;
+  padding-inline: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.contents {
+  width: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 4rem;
+}
+
+.error {
+  text-align: center;
+  color: #b62700;
+}

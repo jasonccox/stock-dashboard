@@ -10,6 +10,7 @@ import { Prices, Symbols } from '../../types';
 import AsyncResource from '../AsyncResource';
 import LoadingIndicator from './LoadingIndicator';
 import ToastContext from '../contexts/ToastContext';
+import * as styles from './Dashboard.module.css';
 
 type Props = {
   backend: Backend
@@ -107,14 +108,14 @@ function DashboardContents({
   }, [backend]);
 
   return (
-    <>
+    <div className={styles.contents}>
       <StockAdder onAdd={watch} />
       <StockList
         symbols={watchedSymbols}
         prices={prices}
         onRemove={unwatch}
       />
-    </>
+    </div>
   );
 }
 
@@ -129,17 +130,19 @@ export default function Dashboard({ backend }: Props) {
   );
 
   const renderError = useCallback(({ error }: FallbackProps) => (
-    <>
+    <div className={styles.error}>
       <p>{makeErrorMessage('loading dashboard', error)}</p>
       <p>Please refresh the page to try again.</p>
-    </>
+    </div>
   ), []);
 
   return (
-    <ErrorBoundary fallbackRender={renderError}>
-      <Suspense fallback={<LoadingIndicator />}>
-        <DashboardContents backend={backend} initialSymbols={initialSymbols} />
-      </Suspense>
-    </ErrorBoundary>
+    <div className={styles.dashboard}>
+      <ErrorBoundary fallbackRender={renderError}>
+        <Suspense fallback={<LoadingIndicator large />}>
+          <DashboardContents backend={backend} initialSymbols={initialSymbols} />
+        </Suspense>
+      </ErrorBoundary>
+    </div>
   );
 }

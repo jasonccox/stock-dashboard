@@ -4,8 +4,71 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>Jason's Stock Dashboard</title>
+
+    <style>
+      .loading-indicator {
+        height: 1rem;
+        width: 2rem;
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-around;
+        align-items: center;
+      }
+
+      .loading-indicator.large {
+        height: 3rem;
+        width: 6rem;
+      }
+
+      .dot {
+        height: 25%;
+        width: 12.5%;
+        border-radius: 50%;
+        background: #000000;
+        opacity: 0;
+        animation-duration: 1.5s;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+      }
+
+      .dot:nth-of-type(1) {
+        animation-name: fade1;
+      }
+
+      .dot:nth-of-type(2) {
+        animation-name: fade2;
+      }
+
+      .dot:nth-of-type(3) {
+        animation-name: fade3;
+      }
+
+      @keyframes fade1 {
+        0% { opacity: 0 }
+        25% { opacity: 1 }
+        50%, 100% { opacity: 0 }
+      }
+
+      @keyframes fade2 {
+        0%, 25% { opacity: 0 }
+        50% { opacity: 1 }
+        75%, 100% { opacity: 0 }
+      }
+
+      @keyframes fade3 {
+        0%, 50% { opacity: 0 }
+        75% { opacity: 1 }
+        100% { opacity: 0 }
+      }
+    </style>
   </head>
   <body>
-    <div id="root">Loading...</div>
+    <div id="root">
+      <div class="loading-indicator" style="margin: 3rem auto">
+        <div class="dot" />
+        <div class="dot" />
+        <div class="dot" />
+      </div>
+    </div>
   </body>
 </html>

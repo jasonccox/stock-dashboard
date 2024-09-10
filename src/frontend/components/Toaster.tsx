@@ -1,10 +1,14 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { v4 as uuid } from 'uuid';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleExclamation, faClose } from '@fortawesome/free-solid-svg-icons';
 import ToastContext, { Toast } from '../contexts/ToastContext';
+import * as styles from './Toaster.module.css';
 
 type ToastWithId = Toast & { id: string };
 
-const defaultExpireMillis = 5000;
+const defaultExpireMillis = 2500;
+const defaultExpireMillisError = 5000;
 
 /**
  * Renders toast messages and provides a ToastContext to allow children to
@@ -22,7 +26,12 @@ export default function Toaster({ children }: React.PropsWithChildren) {
     setToasts((old) => [...old, toast]);
 
     // schedule auto-removal
-    const expireMillis = toast.expireMillis ?? defaultExpireMillis;
+    const expireMillis = toast.expireMillis ?? (
+      toast.type === 'error'
+        ? defaultExpireMillisError
+        : defaultExpireMillis
+    );
+
     if (expireMillis !== 'never') {
       setTimeout(() => removeToast(toast.id), expireMillis);
     }
@@ -34,13 +43,30 @@ export default function Toaster({ children }: React.PropsWithChildren) {
         <div>
           {children}
         </div>
-        <div aria-live="polite">
+        <div className={styles.toasts} aria-live="polite">
           {
             toasts.map((toast) => (
-              <div key={toast.id} role={toast.type === 'error' ? 'alert' : undefined}>
-                {toast.message}
-                <button type="button" onClick={() => removeToast(toast.id)}>
-                  Close
+              <div
+                key={toast.id}
+                className={`${styles.toast} ${toast.type === 'error' ? styles.error : ''}`}
+                role={toast.type === 'error' ? 'alert' : undefined}
+              >
+                { toast.type === 'error' && (
+                  <FontAwesomeIcon
+                    icon={faCircleExclamation}
+                    className={styles.icon}
+                  />
+                )}
+                <div className={styles.message}>
+                  {toast.message}
+                </div>
+                <button
+                  className={styles.close}
+                  type="button"
+                  onClick={() => removeToast(toast.id)}
+                >
+                  <FontAwesomeIcon icon={faClose} />
+                  <div className="a11y-only">Close</div>
                 </button>
               </div>
             ))

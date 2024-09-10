@@ -14,7 +14,8 @@
     "noUncheckedIndexedAccess": true,
     "sourceMap": true,
     "target": "esnext",
-    "outDir": "js"
+    "outDir": "js",
+    "plugins": [{"name": "typescript-plugin-css-modules"}]
   },
   "exclude": ["node_modules"]
 }

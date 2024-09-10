@@ -1,3 +1,23 @@
 * {
   box-sizing: border-box;
 }
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, sans-serif;
+  min-width: 20rem;
+}
+
+/* source: https://dev.to/carlosespada/a11y-tips-hide-content-only-from-sighted-users-2gof */
+.a11y-only {
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  clip-path: inset(50%);
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  border: 0;
+  word-wrap: normal;
+}

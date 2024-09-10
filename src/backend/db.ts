@@ -9,30 +9,32 @@ function normalizeSymbol(symbol: string): string {
 }
 
 class DB {
-  private watchedSymbols: string[] = [];
+  private watchedSymbols: { [userId: string]: string[] } = {};
 
-  async getWatchedSymbols(): Promise<string[]> {
-    return this.watchedSymbols;
+  async getWatchedSymbols(userId: string): Promise<string[]> {
+    return this.watchedSymbols[userId] ?? [];
   }
 
-  async addWatchedSymbol(symbol: string): Promise<void> {
+  async addWatchedSymbol(userId: string, symbol: string): Promise<void> {
     // TODO: validate that symbol is non-empty and doesn't contain spaces
     const normalized = normalizeSymbol(symbol);
-    if (this.watchedSymbols.includes(normalized)) {
+    if (this.watchedSymbols[userId]?.includes(normalized)) {
       throw new DuplicateError(`already watching ${normalized}`);
     }
 
-    this.watchedSymbols.push(normalized);
+    this.watchedSymbols[userId] ??= [];
+    this.watchedSymbols[userId].push(normalized);
   }
 
-  async deleteWatchedSymbol(symbol: string): Promise<void> {
+  async deleteWatchedSymbol(userId: string, symbol: string): Promise<void> {
     // TODO: validate that symbol is non-empty and doesn't contain spaces
     const normalized = normalizeSymbol(symbol);
-    if (!this.watchedSymbols.includes(normalized)) {
+    if (!this.watchedSymbols[userId]?.includes(normalized)) {
       throw new NotFoundError(`not watching to ${normalized}`);
     }
 
-    this.watchedSymbols = this.watchedSymbols.filter((s) => s !== normalized);
+    this.watchedSymbols[userId] = this.watchedSymbols[userId]
+      .filter((s) => s !== normalized);
   }
 }
 

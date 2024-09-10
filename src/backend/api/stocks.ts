@@ -22,6 +22,15 @@ function asyncify<ResBody>(
   };
 }
 
+/** Helper function to safely get userId from res.locals. */
+function getUserId(res: Response): string {
+  const { userId } = res.locals;
+  if (typeof userId !== 'string') {
+    throw Error(`missing or invalid userId: ${userId}`);
+  }
+  return userId;
+}
+
 // Get prices for all stocks listed in the "symbols" query parameter (comma-
 // separated).
 router.get('/prices', asyncify<PricesResponse>(async (req, res) => {
@@ -42,7 +51,7 @@ router.get('/prices', asyncify<PricesResponse>(async (req, res) => {
 
 // Get the list of stocks currently on the watch list.
 router.get('/watches', asyncify<WatchesResponse>(async (req, res) => {
-  const symbols = await db.getWatchedSymbols();
+  const symbols = await db.getWatchedSymbols(getUserId(res));
 
   // simulate delay
   await new Promise((r) => { setTimeout(r, 300); });
@@ -63,7 +72,7 @@ router.post('/watches/:symbol', asyncify(async (req, res) => {
   }
 
   try {
-    await db.addWatchedSymbol(symbol);
+    await db.addWatchedSymbol(getUserId(res), symbol);
     res.status(StatusCodes.CREATED).json('symbol added to watch list');
   } catch (e) {
     if (e instanceof DuplicateError) {
@@ -83,7 +92,7 @@ router.delete('/watches/:symbol', asyncify(async (req, res) => {
   }
 
   try {
-    await db.deleteWatchedSymbol(symbol);
+    await db.deleteWatchedSymbol(getUserId(res), symbol);
   } catch (e) {
     if (e instanceof NotFoundError) {
       res.status(StatusCodes.NOT_FOUND).json({ error: 'symbol not in watch list' });

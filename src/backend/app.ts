@@ -1,3 +1,4 @@
+import 'dotenv/config'; // must be first!
 import express from 'express';
 import * as path from 'path';
 import morgan from 'morgan';

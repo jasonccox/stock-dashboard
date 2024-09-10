@@ -1,6 +1,8 @@
 /* eslint-disable max-classes-per-file -- seems silly to create a new file for
    the error classes */
 
+import { Pool, PoolConfig } from 'pg';
+
 export class DuplicateError extends Error {}
 export class NotFoundError extends Error {}
 
@@ -9,32 +11,87 @@ function normalizeSymbol(symbol: string): string {
 }
 
 class DB {
-  private watchedSymbols: { [userId: string]: string[] } = {};
+  private pool: Pool;
+
+  constructor() {
+    const config: PoolConfig = {
+      user: process.env['DB_USER'],
+      password: process.env['DB_PASSWORD'],
+      database: process.env['DB_DB'],
+      host: process.env['DB_HOST'],
+      port: Number(process.env['DB_PORT']),
+    };
+
+    if (
+      !config.user
+        || !config.password
+        || !config.database
+        || !config.host
+        || !config.port
+        || Number.isNaN(config.port)
+    ) {
+      throw Error('missing required DB environment variables');
+    }
+
+    this.pool = new Pool(config);
+
+    this.pool.on('error', (err) => {
+      console.error('unexpected error on idle client', err);
+      process.exit(1);
+    });
+  }
 
   async getWatchedSymbols(userId: string): Promise<string[]> {
-    return this.watchedSymbols[userId] ?? [];
+    try {
+      const result = await this.pool.query(
+        'select symbol from watches where userId = $1',
+        [userId],
+      );
+
+      return result.rows.map((r) => r.symbol);
+    } catch (e) {
+      console.error('error getting watched symbols', e);
+      throw Error('error getting watched symbols');
+    }
   }
 
   async addWatchedSymbol(userId: string, symbol: string): Promise<void> {
-    // TODO: validate that symbol is non-empty and doesn't contain spaces
     const normalized = normalizeSymbol(symbol);
-    if (this.watchedSymbols[userId]?.includes(normalized)) {
-      throw new DuplicateError(`already watching ${normalized}`);
-    }
 
-    this.watchedSymbols[userId] ??= [];
-    this.watchedSymbols[userId].push(normalized);
+    try {
+      await this.pool.query(
+        'insert into watches (userId, symbol) values ($1, $2)',
+        [userId, normalized],
+      );
+    } catch (e) {
+      if (e instanceof Error && 'code' in e && e.code === '23505') {
+        throw new DuplicateError(`already watching stock ${normalized}`);
+      }
+
+      console.error('error adding watched symbol', normalized, e);
+      throw Error('error adding watched symbol');
+    }
   }
 
   async deleteWatchedSymbol(userId: string, symbol: string): Promise<void> {
-    // TODO: validate that symbol is non-empty and doesn't contain spaces
     const normalized = normalizeSymbol(symbol);
-    if (!this.watchedSymbols[userId]?.includes(normalized)) {
-      throw new NotFoundError(`not watching to ${normalized}`);
+
+    let found: boolean;
+    try {
+      const result = await this.pool.query(
+        'delete from watches where userId = $1 and symbol = $2',
+        [userId, normalized],
+      );
+
+      found = !!result.rowCount && result.rowCount > 0;
+    } catch (e) {
+      console.error('error deleting watched symbol', normalized, e);
+      throw Error('error deleting watched symbol');
     }
 
-    this.watchedSymbols[userId] = this.watchedSymbols[userId]
-      .filter((s) => s !== normalized);
+    if (!found) {
+      throw new NotFoundError(`not watching stock ${normalized}`);
+    }
   }
 }
 

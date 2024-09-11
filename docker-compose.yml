@@ -1,0 +1,25 @@
+services:
+  server:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - DB_USER=${DB_USER:-stocks}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_DB=${DB_DB:-stocks}
+      - DB_HOST=db
+      - DB_PORT=5432
+
+  db:
+    image: postgres:16
+    environment:
+      - POSTGRES_USER=${DB_USER:-stocks}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_DB:-stocks}
+    volumes:
+      - "db-data:/var/lib/postgresql/data"
+      - "./src/initDb.sql:/docker-entrypoint-initdb.d/initDb.sql"
+
+volumes:
+  db-data:

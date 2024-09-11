@@ -1,0 +1,8 @@
+/node_modules/
+/dist/
+/js/
+/.env
+/README.md
+/.nvmrc
+/.git/
+/docker-compose.yml

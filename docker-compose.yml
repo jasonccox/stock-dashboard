@@ -21,5 +21,13 @@ services:
       - "db-data:/var/lib/postgresql/data"
       - "./src/initDb.sql:/docker-entrypoint-initdb.d/initDb.sql"
 
+  playwright:
+    image: mcr.microsoft.com/playwright:v1.47.0
+    command: "/bin/sh -c 'cd /home/pwuser && npx -y playwright@1.47.0 run-server --port 4000 --host 0.0.0.0'"
+    ports:
+      - "4000:4000"
+    profiles:
+      - test
+
 volumes:
   db-data:

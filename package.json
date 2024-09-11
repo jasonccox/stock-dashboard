@@ -12,13 +12,16 @@
     "build:frontend:dev": "webpack --watch",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "PW_TEST_CONNECT_WS_ENDPOINT=ws://127.0.0.1:4000 playwright test",
+    "test:report": "PW_TEST_CONNECT_WS_ENDPOINT=ws://127.0.0.1:4000 playwright show-report"
   },
   "author": "Jason Cox",
   "license": "ISC",
   "devDependencies": {
+    "@playwright/test": "^1.47.0",
     "@types/cookie-parser": "^1.4.7",
     "@types/morgan": "^1.9.9",
+    "@types/node": "^22.5.4",
     "@types/pg": "^8.11.8",
     "@types/react": "^18.3.5",
     "@types/react-dom": "^18.3.0",

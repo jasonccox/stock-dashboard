@@ -6,3 +6,9 @@
 /.nvmrc
 /.git/
 /docker-compose.yml
+/playwright.config.ts
+/tests
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/

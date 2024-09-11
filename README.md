@@ -63,3 +63,7 @@ See the `package.json` file for more scripts.
 ### Linting
 
 Before committing new code, run `npm run lint` or `npm run lint:fix` to make sure the code matches the project's style.
+
+### Testing
+
+A small suite of Playwright end-to-end tests are included. To run them, first start the test containers with `DB_PASSWORD=<password> docker compose --profile test up`. Then use `npm run test` to run the tests.

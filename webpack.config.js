@@ -14,7 +14,7 @@ module.exports = {
     rules: [
       {
         test: /\.(ts|tsx)$/,
-        exclude: /node_modules/,
+        exclude: [/node_modules/, /playwright\.config\.ts/],
         resolve: {
           extensions: ['.ts', '.tsx', '.json'],
         },

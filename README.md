@@ -39,14 +39,10 @@ Finally, run the `initDb.sql` script on the `stocks` database as the `stocks` us
 
 (Make sure you've completed the database setup instructions above!)
 
-First, you'll need to create a `.env` file at the root of the repository with the variables shown below. The values should match those from the Docker compose file (if running the DB via Docker) or the ones you used when setting up a database on your dev machine.
+First, you'll need to create a `.env` file at the root of the repository to tell the app the database password. The password should of course match whatever password you used when setting up the database.
 
 ```
-DB_USER=stocks
 DB_PASSWORD=<password>
-DB_DB=stocks
-DB_HOST=localhost
-DB_PORT=5432
 ```
 
 Next, run `npm install` to download the required modules. Then you can run `npm run build` to transpile the TypeScript code to JavaScript and bundle the frontend. Finally, run `npm run start` to start the app server. Visit <http://localhost:3000> to make sure that it's working.

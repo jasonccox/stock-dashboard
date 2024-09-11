@@ -15,11 +15,11 @@ class DB {
 
   constructor() {
     const config: PoolConfig = {
-      user: process.env['DB_USER'],
+      user: process.env['DB_USER'] ?? 'stocks',
       password: process.env['DB_PASSWORD'],
-      database: process.env['DB_DB'],
-      host: process.env['DB_HOST'],
-      port: Number(process.env['DB_PORT']),
+      database: process.env['DB_DB'] ?? 'stocks',
+      host: process.env['DB_HOST'] ?? 'localhost',
+      port: Number(process.env['DB_PORT'] ?? 5432),
     };
 
     if (

@@ -63,3 +63,7 @@ Before committing new code, run `npm run lint` or `npm run lint:fix` to make sur
 ### Testing
 
 A small suite of Playwright end-to-end tests are included. To run them, first start the test containers with `DB_PASSWORD=<password> docker compose --profile test up`. Then use `npm run test` to run the tests.
+
+## Exploring the code
+
+The stock dashboard is written in TypeScript with a Node.js backend, PostgreSQL database, and a React frontend. The backend entrypoint is `src/backend/app.ts`, and the frontend entrypoint is `src/frontend/index.tsx`; from one of those starting points, you should be able to follow the trail of imports. The database schema is defined in `src/initDb.sql`.
